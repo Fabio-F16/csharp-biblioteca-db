@@ -7,8 +7,7 @@
         static void Main(string[] args)
         {
             Biblioteca biblioteca = new Biblioteca();
-            // Registrazione();
-            // biblioteca.Registrazione();
+
             Console.WriteLine("**** BIBLIOTECA ****");
             Console.WriteLine("Digita il numero corrispondente");
             Console.WriteLine("1-Registrazione");

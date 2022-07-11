@@ -11,7 +11,7 @@ namespace csharp_biblioteca_db
     {
         List<Utente> nuoviUtenti;
         List<Documento> documenti;
-
+        SqlConnection conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Fabioz\\Documents\\db-biblioteca.mdf;Integrated Security=True;Connect Timeout=30");
 
         public Biblioteca()
         {
@@ -42,8 +42,7 @@ namespace csharp_biblioteca_db
         internal void StampaUtenti()
         {
 
-            SqlConnection conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Fabioz\\Documents\\db-biblioteca.mdf;Integrated Security=True;Connect Timeout=30");
-
+         
             conn.Open();
 
             string query = "SELECT name, surname, email FROM users";
@@ -66,29 +65,66 @@ namespace csharp_biblioteca_db
 
         public void Login()
         {
-           Biblioteca biblioteca = new Biblioteca();
-            
-            Console.WriteLine("Inserisci il tuo nome");
-            string nome = Console.ReadLine();
+
+            try
+            {
+                SqlConnection conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Fabioz\\Documents\\db-biblioteca.mdf;Integrated Security=True;Connect Timeout=30");
+                Biblioteca biblioteca = new Biblioteca();
+
+                Console.WriteLine("Inserisci il tuo nome");
+                string nome = Console.ReadLine();
+
+
+                Console.WriteLine("Inserisci il tuo cognome");
+                string cognome = Console.ReadLine();
+
+
+                Console.WriteLine("Inserisci la tua email");
+                string email = Console.ReadLine();
+                Utente tempUtente = new Utente(nome, cognome, email);
+
+                conn.Open();
+                string query = "SELECT TOP 1 * FROM users WHERE name=@nome AND surname=@cognome";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.Add(new SqlParameter("@nome", nome));
+                    cmd.Parameters.Add(new SqlParameter("@cognome", cognome));
+                    //cmd.Parameters.Add(new SqlParameter("@email", email));
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (nome == reader.GetString(1) && cognome == reader.GetString(2))
+                            {
+                                Console.WriteLine("Utente registrato");
+                                tempUtente = new Utente(nome, cognome, email);
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Utente non registrato");
+                            }                            
+                        }
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
            
-
-            Console.WriteLine("Inserisci il tuo cognome");
-            string cognome = Console.ReadLine();
-            
-
-            Console.WriteLine("Inserisci la tua email");
-            string email = Console.ReadLine();
-            Utente tempUtente = new Utente(nome, cognome, email);
-
-           
-            Console.WriteLine("Utente registrato");
-            
             
         }
-
         public void Registrazione()
         {
-            SqlConnection conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Fabioz\\Documents\\db-biblioteca.mdf;Integrated Security=True;Connect Timeout=30");
+            
             try
             {
                 conn.Open();
@@ -125,7 +161,7 @@ namespace csharp_biblioteca_db
         }
         public void addPrestito()
         {
-            SqlConnection conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Fabioz\\Documents\\db-biblioteca.mdf;Integrated Security=True;Connect Timeout=30");
+           
             try
             {
                 conn.Open();
@@ -166,7 +202,7 @@ namespace csharp_biblioteca_db
 
         public void RicercaLibro()
         {
-            SqlConnection conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Fabioz\\Documents\\db-biblioteca.mdf;Integrated Security=True;Connect Timeout=30");
+            
             conn.Open();
             string query = "SELECT title, author FROM books WHERE title=@titolo";
             
@@ -188,12 +224,22 @@ namespace csharp_biblioteca_db
                     {
                         Console.WriteLine("libro non trovato");
                     }
+
                 }
             }
-
          conn.Close();
-         
-          
+            Console.WriteLine("Vuoi efettuare un prestito? si/no");
+            string risposta = Console.ReadLine();
+            if (risposta == "si")
+            {
+                this.addPrestito();
+            }
+            else
+            {
+                Console.Clear();
+            }
+
+
         }
     }
 }
