@@ -18,17 +18,17 @@ namespace csharp_biblioteca_db
             nuoviUtenti = new List<Utente>();
             documenti = new List<Documento>();
         }
-
+       // ---------------------------AGGIUNGI UTENTE
         public void AggiungiUtente(Utente utente)
         {
             this.nuoviUtenti.Add(utente);
         }
-
+        //--------------------------AGGIUNGI DOCUMENTO
         public void AggiungiDocumento(Documento documento)
         {
             this.documenti.Add(documento);
         }
-
+        // ---------------------------STAMPA DOCUMENTO
         internal void StampaDocumento()
         {
             Console.WriteLine("Lista articoli:");
@@ -39,6 +39,7 @@ namespace csharp_biblioteca_db
                 Console.WriteLine(documento.ToString());
             }
         }
+        //--------------------STAMPA UTENTI
         internal void StampaUtenti()
         {
 
@@ -62,7 +63,7 @@ namespace csharp_biblioteca_db
             }
             reader.Close();
         }
-
+        //-------------------------------LOGIN
         public void Login()
         {
 
@@ -122,6 +123,7 @@ namespace csharp_biblioteca_db
            
             
         }
+        //------------------------------REGISTRAZIONE
         public void Registrazione()
         {
             
@@ -159,6 +161,8 @@ namespace csharp_biblioteca_db
                 conn.Close();
             }
         }
+
+        //---------------------------PRESTITO
         public void addPrestito()
         {
            
@@ -199,7 +203,7 @@ namespace csharp_biblioteca_db
             }          
         }
 
-
+        // --------------------RICERCA LIBRO
         public void RicercaLibro()
         {
             
@@ -238,8 +242,6 @@ namespace csharp_biblioteca_db
             {
                 Console.Clear();
             }
-
-
         }
     }
 }
