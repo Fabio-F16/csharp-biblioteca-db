@@ -160,11 +160,40 @@ namespace csharp_biblioteca_db
             finally
             {
                 conn.Close();
-            }
-
-
-           
+            }          
         }
 
+
+        public void RicercaLibro()
+        {
+            SqlConnection conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Fabioz\\Documents\\db-biblioteca.mdf;Integrated Security=True;Connect Timeout=30");
+            conn.Open();
+            string query = "SELECT title, author FROM books WHERE title=@titolo";
+            
+            Console.WriteLine("Inserisci il titolo per la ricerca: ");
+            string titolo = Console.ReadLine();
+
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.Add(new SqlParameter("@titolo", titolo));
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine(reader.GetString(0));
+                        Console.WriteLine(reader.GetString(1));
+                    }
+                    else
+                    {
+                        Console.WriteLine("libro non trovato");
+                    }
+                }
+            }
+
+         conn.Close();
+         
+          
+        }
     }
 }

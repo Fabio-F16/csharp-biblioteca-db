@@ -4,7 +4,6 @@
 
     internal class Program
     {
-        
         static void Main(string[] args)
         {
             Biblioteca biblioteca = new Biblioteca();
@@ -35,12 +34,9 @@
                 }
                 else
                 {
-                    Console.WriteLine("ricerca libro");
+                    biblioteca.RicercaLibro();
                 }
             }
-
-            
-            //biblioteca.StampaUtenti();
 
 
         }
