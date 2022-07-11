@@ -169,7 +169,7 @@ namespace csharp_biblioteca_db
             try
             {
                 conn.Open();
-                string query = "INSERT INTO rents (start, end, user_id, copy_id) value (@start, @end, @userId, @copyId)";
+                string query = "INSERT INTO rents (data_start, data_end, user_id, copy_id) VALUES (@start, @end, @userId, @copyId);";
                 SqlCommand command = new SqlCommand(query, conn);
                 Console.WriteLine("Inserisci i dati per l'avvio del prestito: ");
                 Console.WriteLine();
@@ -190,6 +190,8 @@ namespace csharp_biblioteca_db
                 DateTime dataEnd = System.DateTime.Parse(Console.ReadLine());
                 command.Parameters.Add(new SqlParameter("@end", dataEnd));
 
+
+                Console.WriteLine("Prestito effettuato!!!");
                 command.ExecuteNonQuery();
 
             }

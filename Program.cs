@@ -9,7 +9,7 @@
             Biblioteca biblioteca = new Biblioteca();
 
             Console.WriteLine("**** BIBLIOTECA ****");
-            Console.WriteLine("Digita il numero corrispondente");
+            Console.WriteLine("Digita il numero corrispondente all'azione");
             Console.WriteLine("1-Registrazione");
             Console.WriteLine("2-Login");
             string risposta = Console.ReadLine();
